@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>Xác thực YouTube — AI Đăng Bài</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{font-family:system-ui,-apple-system,sans-serif;background:#0f172a;color:#e2e8f0;margin:0;padding:32px 20px;text-align:center}
+.box{max-width:560px;margin:0 auto;background:#1e293b;border:1px solid #334155;border-radius:14px;padding:28px}
+h1{font-size:22px;margin:0 0 12px}
+p{line-height:1.7;opacity:.85}
+#codeBox{display:none;background:#020617;border:1px dashed #38bdf8;border-radius:10px;padding:16px;margin:16px 0;word-break:break-all;font-family:monospace;font-size:15px;color:#7dd3fc}
+button{background:#2563eb;border:none;color:#fff;border-radius:8px;padding:12px 22px;font-size:16px;cursor:pointer;font-weight:700}
+button:hover{background:#1d4ed8}
+.err{color:#fca5a5}
+ol{text-align:left;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="box" id="main">
+<h1>▶️ Xác thực YouTube</h1>
+<div id="content"><p>Đang xử lý…</p></div>
+</div>
+<script>
+(function(){
+  var q = new URLSearchParams(location.search);
+  var code = q.get("code"), err = q.get("error");
+  var el = document.getElementById("content");
+  if (err) {
+    el.innerHTML = '<p class="err">❌ Google từ chối: ' + err + '</p><p>Hãy đóng trang này và bấm "Kết nối YouTube" lại trong app.</p>';
+    return;
+  }
+  if (!code) {
+    el.innerHTML = '<p class="err">Không tìm thấy mã xác thực trong đường dẫn.</p><p>Hãy đóng trang này và thực hiện lại bước kết nối trong app AI Đăng Bài.</p>';
+    return;
+  }
+  el.innerHTML =
+    '<p>✅ Google đã cấp quyền. Copy <b>mã xác thực</b> bên dưới rồi dán vào app AI Đăng Bài (tab ▶️ YouTube → ô "Mã xác thực từ Google" → Xác nhận kết nối):</p>' +
+    '<div id="codeBox" style="display:block">' + code.replace(/</g,"&lt;") + '</div>' +
+    '<button onclick="copyCode()">📋 Copy mã</button>' +
+    '<p style="margin-top:16px">Sau khi dán mã vào app, bạn có thể đóng trang này.</p>';
+  window.copyCode = function(){
+    navigator.clipboard.writeText(code).then(function(){ alert("Đã copy mã!"); });
+  };
+})();
+</script>
+</body>
+</html>
